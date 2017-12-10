@@ -14,14 +14,22 @@ func TestForAll(t *testing.T) {
 	// Perform an increasingly heavy operation on each element in parallel and
 	// measure the duration.
 	start := time.Now()
-	ForAll(xs).Do(func(i int) { work(xs[i]) })
+	ForAll(xs).Do(func(i int) {
+		w := 0
+		for j := 0; j < i; j++ {
+			w++
+		}
+	})
 	duration := time.Now().Sub(start)
 
 	// Perform an increasingly heavy operation on each element sequentially and
 	// measure the duration.
 	start = time.Now()
 	for i := 0; i < len(xs); i++ {
-		work(xs[i])
+		w := 0
+		for j := 0; j < i; j++ {
+			w++
+		}
 	}
 	durationCmp := time.Now().Sub(start)
 
@@ -32,8 +40,5 @@ func TestForAll(t *testing.T) {
 }
 
 func work(load int) {
-	w := 0
-	for i := 0; i < load; i++ {
-		w++
-	}
+	
 }
